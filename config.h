@@ -10,6 +10,8 @@ static const char selbgcolor[]      = "#444444";
 static const char selfgcolor[]      = "#eeddcc";
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
+static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const Bool showsystray       = True;     /* False means no systray */
 static const Bool showbar           = True;     /* False means no bar */
 static const Bool topbar            = True;     /* False means bottom bar */
 
@@ -18,8 +20,11 @@ static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            True,        -1 },
+	{ "Gimp",     NULL,       NULL,       1 << 8,       True,        -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       False,       -1 },
+	{ "dwb",      NULL,       NULL,       1 ,           False,       -1 },
+	{ "XTerm",    NULL,       NULL,       1 << 1,       False,       -1 },
+	{ "Eclipse",  NULL,       NULL,       1 << 3,       False,       -1 },
 };
 
 /* layout(s) */
@@ -48,11 +53,14 @@ static const Layout layouts[] = {
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "uxterm", NULL };
+static const char *nautiluscmd[]  = { "nautilus", "--no-desktop","--browser", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_KP_Enter, spawn,        {.v = termcmd } },
+	{ MODKEY,                       XK_e,      spawn,          {.v = nautiluscmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -60,7 +68,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
+	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY|ShiftMask,             XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
@@ -74,16 +82,16 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	TAGKEYS(                        XK_ampersand /* XK_1 */,           0)
-	TAGKEYS(                        XK_eacute /* XK_2 */,           1)
-	TAGKEYS(                        XK_quotedbl /* XK_3 */,           2)
+	TAGKEYS(                        XK_ampersand  /* XK_1 */,           0)
+	TAGKEYS(                        XK_eacute     /* XK_2 */,           1)
+	TAGKEYS(                        XK_quotedbl   /* XK_3 */,           2)
 	TAGKEYS(                        XK_apostrophe /* XK_4 */,           3)
-	TAGKEYS(                        XK_parenleft /* XK_5 */,           4)
-	TAGKEYS(                        XK_minus /* XK_6 */,           5)
-	TAGKEYS(                        XK_egrave /* XK_7 */,           6)
+	TAGKEYS(                        XK_parenleft  /* XK_5 */,           4)
+	TAGKEYS(                        XK_minus      /* XK_6 */,           5)
+	TAGKEYS(                        XK_egrave     /* XK_7 */,           6)
 	TAGKEYS(                        XK_underscore /* XK_8 */,           7)
-	TAGKEYS(                        XK_ccedilla /* XK_9 */,           8)
-	{ MODKEY|ControlMask,             XK_q,      quit,           {0} },
+	TAGKEYS(                        XK_ccedilla   /* XK_9 */,           8)
+	{ MODKEY|ControlMask,           XK_q,      quit,           {0} },
 };
 
 /* button definitions */

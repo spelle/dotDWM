@@ -1,0 +1,9 @@
+out_to_console yes
+out_to_x no
+background no
+update_interval 2
+total_run_times 0
+use_spacer none
+
+TEXT
+.:: CPU: ${cpu cpu1}% ::  LOAD: ${loadavg 1 2 3} :: TEMP: ${acpitemp}°C :: MEM: ${memperc}% ($mem) :: NET: ${downspeed eth0}K/s(DOWN) - ${upspeed eth0}K/s (UP) :: ${time %a %b %d %I:%M%P}
