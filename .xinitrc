@@ -7,5 +7,5 @@ do
     xsetroot -name  "$(date +"%a %b %d %r")"
     sleep 1s
 done &
-exec dwm
+exec dwm-start
 
