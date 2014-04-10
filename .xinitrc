@@ -1,6 +1,6 @@
 #! /bin/sh
 setxkbmap -option terminate:ctrl_alt_bksp
-feh --bg-scale /home/user/Pictures/wall.png
+feh --bg-scale $HOME/.dwm/themes/current/wall.png
 conky -x 0 -y 0 -d
 while true 
 do
