@@ -732,7 +732,7 @@ drawbar(Monitor *m) {
 		dc.w = TEXTW(tags[i]);
 		col = m->tagset[m->seltags] & 1 << i ? dc.sel : dc.norm;
 		drawtext(tags[i], col, urg & 1 << i);
-		drawsquare(m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
+		drawsquare(m == selmon && selmon->sel && (selmon->sel->tags & 1 << i),
 		           occ & 1 << i, urg & 1 << i, col);
 		dc.x += dc.w;
 	}
@@ -1676,7 +1676,7 @@ spawn(const Arg *arg) {
 
 void
 tag(const Arg *arg) {
-	if(selmon->sel && arg->ui & TAGMASK) {
+	if( (selmon->sel) && (arg->ui & TAGMASK) ) {
 		selmon->sel->tags = arg->ui & TAGMASK;
 		focus(NULL);
 		arrange(selmon);
@@ -2027,7 +2027,7 @@ updatewmhints(Client *c) {
 	XWMHints *wmh;
 
 	if((wmh = XGetWMHints(dpy, c->win))) {
-		if(c == selmon->sel && wmh->flags & XUrgencyHint) {
+		if( (c == selmon->sel) && (wmh->flags & XUrgencyHint) ) {
 			wmh->flags &= ~XUrgencyHint;
 			XSetWMHints(dpy, c->win, wmh);
 		}
